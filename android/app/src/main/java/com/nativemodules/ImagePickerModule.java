@@ -1,4 +1,6 @@
 package com.nativemodules;
+import com.facebook.react.bridge.ActivityEventListener;
+import com.facebook.react.bridge.BaseActivityEventListener;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
@@ -7,6 +9,10 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.Promise;
 import java.util.Map;
 import java.util.HashMap;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.facebook.react.bridge.WritableMap;
@@ -51,25 +57,11 @@ public class ImagePickerModule extends ReactContextBaseJavaModule {
 
         // Add the listener for `onActivityResult`
         reactContext.addActivityEventListener(mActivityEventListener);
-        reactContext.addLifecycleEventListener(this);
     }
 
     @Override
     public String getName() {
         return "ImagePickerModule";
-    }
-
-    @Override
-    public void onHostResume() {
-        // Activity `onResume`
-    }
-    @Override
-    public void onHostPause() {
-        // Activity `onPause`
-    }
-    @Override
-    public void onHostDestroy() {
-        // Activity `onDestroy`
     }
 
     @ReactMethod

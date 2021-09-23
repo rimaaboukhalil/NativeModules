@@ -1,19 +1,29 @@
-import React from 'react';
-import { NativeModules, Button } from 'react-native';
-import { NativeEventEmitter, NativeModules } from 'react-native';
+import React, { useEffect } from 'react';
+import { NativeEventEmitter, NativeModules, Button } from 'react-native';
 
 const { CalendarModule } = NativeModules;
 //const { CalendarModule } = ReactNative.NativeModules;
 
+const { DEFAULT_EVENT_NAME } = CalendarModule.getConstants();
+console.log(DEFAULT_EVENT_NAME);
+
 const NewModuleButton = () => {
+    useEffect(() => {
+      const eventEmitter = new NativeEventEmitter(NativeModules.ToastExample);
+      this.eventListener = eventEmitter.addListener('EventReminder', (event) => {
+         console.log(event.eventProperty) // "someValue"
+      });
+
+      return () => this.eventListener.remove();
+    });
+
     const onSubmit = async () => {
       try {
-        const eventId = await CalendarModule.createCalendarEvent(
-          'Party',
-          'My House'
-        );
-        console.log(`Created a new event with id ${eventId}`);
+        console.log('Activity started');
+        await NativeModules.ImagePickerModule.pickImage();
+        console.log('Activity done');
       } catch (e) {
+        console.log('Activity error');
         console.error(e);
       }
     };
@@ -26,19 +36,5 @@ const NewModuleButton = () => {
     />
   );
 };
-
-componentDidMount() {
-   const eventEmitter = new NativeEventEmitter(NativeModules.ToastExample);
-   this.eventListener = eventEmitter.addListener('EventReminder', (event) => {
-      console.log(event.eventProperty) // "someValue"
-   });
- }
-
- componentWillUnmount() {
-   this.eventListener.remove(); //Removes the listener
- }
-
-const { DEFAULT_EVENT_NAME } = CalendarModule.getConstants();
-console.log(DEFAULT_EVENT_NAME);
 
 export default NewModuleButton;
